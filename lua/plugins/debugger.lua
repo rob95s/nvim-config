@@ -30,6 +30,23 @@ return {
 			command = "codelldb", -- or if not in $PATH: "/absolute/path/to/codelldb"
 		}
 
+		-- dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
+		-- External terminal nustatymas iTerm2
+		-- dap.defaults.fallback.external_terminal = {
+		-- 	command = "osascript",
+		-- 	args = {
+		-- 		"-e",
+		-- 		[[
+		--   tell application "iTerm"
+		--       create window with default profile
+		--       tell current session of current window
+		--           write text "cd ']] .. vim.fn.getcwd() .. [['; ./main"
+		--       end tell
+		--   end tell
+		--   ]],
+		-- 	},
+		-- }
+
 		-- Configurations
 		dap.configurations = {
 			c = {
@@ -43,6 +60,8 @@ return {
 					cwd = "${workspaceFolder}",
 					stopAtEntry = false,
 					--MIMode = "lldb",
+					-- console = "externalTerminal",
+					-- console = "integratedTerminal",
 				},
 			},
 		}
@@ -79,5 +98,6 @@ return {
 		vim.keymap.set("n", "<Leader>dc", ":DapContinue<CR>")
 		vim.keymap.set("n", "<Leader>dx", ":DapTerminate<CR>")
 		vim.keymap.set("n", "<Leader>do", ":DapStepOver<CR>")
+		vim.keymap.set("n", "<Leader>de", ":lua require('dapui').elements.watches.add(vim.fn.expand('<cword>'))")
 	end,
 }

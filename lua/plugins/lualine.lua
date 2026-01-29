@@ -1,3 +1,5 @@
+local utils = require("colorscheme-picker.utils")
+
 return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -5,7 +7,7 @@ return {
         require("lualine").setup({
             options = {
                 icons_enabled = true,
-                theme = "nightfly",
+                theme = utils.get_lualine_theme(),  -- colorscheme.utils function
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "", right = "" },
                 disabled_filetypes = {

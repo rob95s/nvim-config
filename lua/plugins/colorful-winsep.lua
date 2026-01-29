@@ -1,3 +1,5 @@
+local utils = require("colorscheme-picker.utils")
+
 return {
 	"nvim-zh/colorful-winsep.nvim",
 	config = true,
@@ -8,7 +10,10 @@ return {
 		border = { "━", "┃", "┏", "┓", "┗", "┛" },
 		excluded_ft = { "packer", "TelescopePrompt", "mason" },
 		-- highlight = nil, -- nil|string|function. See the docs's Highlights section
-		highlight = vim.api.nvim_set_hl(0, "ColorfulWinSep", { fg = "#babbf1", bg = nil }),
+		-- highlight = vim.api.nvim_set_hl(0, "ColorfulWinSep", { fg = utils.get_separator_color(), bg = nil }),
+        highlight = function()
+            vim.api.nvim_set_hl(0, "ColorfulWinSep", { fg = utils.get_separator_color(), bg = nil })
+        end,
         animate = {
 			enabled = "shift", -- false to disable, or choose a option below (e.g. "shift") and set option for it if needed
 			shift = {
