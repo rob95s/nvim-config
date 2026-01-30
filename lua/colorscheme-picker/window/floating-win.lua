@@ -6,7 +6,7 @@ local picker = require("colorscheme-picker")
 -- namespace for highlight
 M.ns = api.nvim_create_namespace("ColorschemePickerWin")
 
-local WIDTH_PADDING = 10
+local WIDTH_PADDING = 20
 
 function M.open()
     -- rasti ilgiausią schemos pavadinimą
@@ -38,6 +38,13 @@ function M.open()
     api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     api.nvim_buf_set_option(buf, "modifiable", false)
 
+    -- paimam FloatBorder foreground foreground
+    local border_hl = vim.api.nvim_get_hl_by_name("FloatBorder", true)
+    local fg_color = string.format("#%06x", border_hl.foreground)
+    local bg_color = string.format("#%06x", border_hl.background)
+    vim.api.nvim_set_hl(0, "FloatTitle", { fg = fg_color, bg = bg_color, bold = true})
+
+    -- atidarom langą
     local win = api.nvim_open_win(buf, true, {
         relative = "editor",
         width = width,
@@ -46,17 +53,26 @@ function M.open()
         col = math.floor((vim.o.columns - width) / 2),
         style = "minimal",
         border = "rounded",
+        title = " Pick your colorscheme ",
+        title_pos = "center",
     })
+
 
     -- įrašyti buffer ir window
     M.buf = buf
     M.win = win
 
+    -- po atidarymo, atstatom seną FloatTitle
+    -- vim.api.nvim_set_hl(0, "FloatTitle", old)
+
     local opts = { noremap = true, silent = true }
 
     -- keymaps judėjimui per eilutes
     local function map_move(key, delta)
-        api.nvim_buf_set_keymap(buf, "n", key,
+        api.nvim_buf_set_keymap(
+            buf,
+            "n",
+            key,
             string.format("<cmd>lua require('colorscheme-picker.window.floating-win').move_cursor(%d)<CR>", delta),
             opts
         )
@@ -68,34 +84,38 @@ function M.open()
     map_move("<Up>", -1)
 
     -- keymap: pasirinkimas Enter
-    api.nvim_buf_set_keymap(buf, "n", "<CR>",
+    api.nvim_buf_set_keymap(
+        buf,
+        "n",
+        "<CR>",
         [[<cmd>lua require("colorscheme-picker.window.floating-win").select()<CR>]],
         opts
     )
 
     -- keymap: uždaryti langą Esc
-    api.nvim_buf_set_keymap(buf, "n", "<Esc>",
-        [[<cmd>lua vim.api.nvim_win_close(0, true)<CR>]],
-        opts
-    )
+    api.nvim_buf_set_keymap(buf, "n", "<Esc>", [[<cmd>lua vim.api.nvim_win_close(0, true)<CR>]], opts)
 
     -- pradinė highlight pozicija ant pirmos entry
-    api.nvim_win_set_cursor(win, {1,0})
+    api.nvim_win_set_cursor(win, { 1, 0 })
     M.update_highlight()
 end
 
 -- judėti per eilutes
 function M.move_cursor(delta)
-    if not M.buf or not M.win then return end
+    if not M.buf or not M.win then
+        return
+    end
     local row = api.nvim_win_get_cursor(M.win)[1] - 1
     row = math.max(0, math.min(row + delta, #picker.available - 1))
-    api.nvim_win_set_cursor(M.win, {row + 1, 0})
+    api.nvim_win_set_cursor(M.win, { row + 1, 0 })
     M.update_highlight()
 end
 
 -- update highlight pagal cursor poziciją
 function M.update_highlight()
-    if not M.buf or not M.win then return end
+    if not M.buf or not M.win then
+        return
+    end
     local row = api.nvim_win_get_cursor(M.win)[1] - 1
     api.nvim_buf_clear_namespace(M.buf, M.ns, 0, -1)
     api.nvim_buf_add_highlight(M.buf, M.ns, "Visual", row, 0, -1)
@@ -103,11 +123,15 @@ end
 
 -- pasirinkti schemą po Enter
 function M.select()
-    if not M.buf or not M.win then return end
+    if not M.buf or not M.win then
+        return
+    end
 
     local row = api.nvim_win_get_cursor(M.win)[1] - 1
     local raw = api.nvim_buf_get_lines(M.buf, row, row + 1, false)[1]
-    if not raw then return end
+    if not raw then
+        return
+    end
 
     -- pašalinti padding tarpus
     local name = raw:match("^%s*(.-)%s*$")

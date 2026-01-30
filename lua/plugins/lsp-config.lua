@@ -17,29 +17,44 @@ return {
             require("luasnip.loaders.from_vscode").lazy_load()
 
             cmp.setup({
+
+                enabled = function()
+                    -- visada leisti cmdline
+                    if vim.api.nvim_get_mode().mode == "c" then
+                        return true
+                    end
+                    -- išjungti komentaruose
+                    local context = require("cmp.config.context")
+                    return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+                end,
+
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
                     end,
                 },
+
                 window = {
-                    completion = cmp.config.window.bordered({ border = "rounded" }),
-                    documentation = cmp.config.window.bordered({ border = "rounded" }),
+                    completion = cmp.config.window.bordered({
+                        border = "rounded",
+                        winhighlight = "NormalFloat:Pmenu,FloatBorder:FloatBorder,Search:None",
+                    }),
+                    documentation = cmp.config.window.bordered({
+                        border = "rounded",
+                        winhighlight = "NormalFloat:Pmenu,FloatBorder:FloatBorder,Search:None",
+                    }),
                     side_padding = 1,
                 },
+
                 mapping = cmp.mapping.preset.insert({
-                    -- ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-                    -- ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-l>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.close(), --.abort()
-                    -- ["<TAB>"] = cmp.mapping.confirm({ select = true }),
                     ["<CR>"] = cmp.mapping.confirm({
                         behavior = cmp.ConfirmBehavior.Insert,
                         select = true,
                     }),
-
                     ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
@@ -49,7 +64,6 @@ return {
                             fallback()
                         end
                     end, { "i", "s" }),
-
                     ["<S-Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()

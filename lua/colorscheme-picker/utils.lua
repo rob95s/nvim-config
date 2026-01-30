@@ -2,6 +2,8 @@
 -- Utility module for colorschemes
 -- Provides helper functions shared across colorschemes/plugins
 
+
+
 local M = {}
 
 -- Table storing dynamic parameters
@@ -36,6 +38,30 @@ end
 
 function M.set_lualine_theme(theme)
     M.set_param("lualine_theme", theme)
+end
+
+function M.scale_hl_color(factor, hl_name, which)
+    local hl = vim.api.nvim_get_hl_by_name(hl_name, true)
+    if not hl then return nil end
+
+    local color_val
+    if which == "fg" and hl.foreground then
+        color_val = hl.foreground
+    elseif which == "bg" and hl.background then
+        color_val = hl.background
+    else
+        return nil
+    end
+
+    local r = math.floor(color_val / 0x10000)
+    local g = math.floor((color_val % 0x10000) / 0x100)
+    local b = color_val % 0x100
+
+    r = math.max(0, math.min(255, math.floor(r * factor)))
+    g = math.max(0, math.min(255, math.floor(g * factor)))
+    b = math.max(0, math.min(255, math.floor(b * factor)))
+
+    return string.format("#%02x%02x%02x", r, g, b)
 end
 
 return M
