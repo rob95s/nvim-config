@@ -39,10 +39,18 @@ function M.open()
     api.nvim_buf_set_option(buf, "modifiable", false)
 
     -- paimam FloatBorder foreground foreground
-    local border_hl = vim.api.nvim_get_hl_by_name("FloatBorder", true)
-    local fg_color = string.format("#%06x", border_hl.foreground)
-    local bg_color = string.format("#%06x", border_hl.background)
-    vim.api.nvim_set_hl(0, "FloatTitle", { fg = fg_color, bg = bg_color, bold = true})
+    -- local border_hl = vim.api.nvim_get_hl_by_name("FloatBorder", true)
+    -- local border_hl = vim.api.nvim_get_hl_by_name("Pmenu", true)
+    -- local fg_color = string.format("#%06x", border_hl.foreground)
+    -- local bg_color = string.format("#%06x", border_hl.background)
+    -- vim.api.nvim_set_hl(0, "FloatTitle", { fg = fg_color, bg = bg_color, bold = true})
+
+
+    local fg_rgb = vim.api.nvim_get_hl_by_name("FloatBorder", true).foreground
+    local bg_rgb = vim.api.nvim_get_hl_by_name("FloatBorder", true).background
+    local fg_hex = string.format("#%06x", fg_rgb)
+    local bg_hex = string.format("#%06x", bg_rgb)
+    vim.api.nvim_set_hl(0, "FloatTitle", { fg = fg_hex, bg = bg_hex, bold = true})
 
     -- atidarom langą
     local win = api.nvim_open_win(buf, true, {

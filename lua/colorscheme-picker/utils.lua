@@ -2,14 +2,12 @@
 -- Utility module for colorschemes
 -- Provides helper functions shared across colorschemes/plugins
 
-
-
 local M = {}
 
 -- Table storing dynamic parameters
 M._params = {
     separator_color = "#000000", -- default
-    lualine_theme    = "auto",   -- default
+    lualine_theme = "auto",   -- default
 }
 
 -- Generic getter
@@ -42,7 +40,9 @@ end
 
 function M.scale_hl_color(factor, hl_name, which)
     local hl = vim.api.nvim_get_hl_by_name(hl_name, true)
-    if not hl then return nil end
+    if not hl then
+        return nil
+    end
 
     local color_val
     if which == "fg" and hl.foreground then
@@ -62,6 +62,19 @@ function M.scale_hl_color(factor, hl_name, which)
     b = math.max(0, math.min(255, math.floor(b * factor)))
 
     return string.format("#%02x%02x%02x", r, g, b)
+end
+
+function M.get_highlight_hex_code(hl_name, switch)
+    local hl_table = vim.api.nvim_get_hl_by_name(hl_name, true)
+    -- print("Visas table -> " .. vim.inspect(hl_table)) -- čia pamatysi visą table
+    local color_rgb
+    if switch == "fg" then
+        color_rgb = hl_table.foreground
+    elseif switch == "bg" then
+        color_rgb = hl_table.background
+    end
+
+    return string.format("#%06x", color_rgb)
 end
 
 return M

@@ -12,11 +12,40 @@ return {
 
     {
         "hrsh7th/nvim-cmp",
+
+        dependencies = {
+            "onsails/lspkind.nvim",
+        },
+
         config = function()
+            local lspkind = require("lspkind")
             local cmp = require("cmp")
             require("luasnip.loaders.from_vscode").lazy_load()
 
             cmp.setup({
+                formatting = {
+                    fields = { "abbr", "icon", "kind" }, --menu
+                    format = lspkind.cmp_format({
+                        maxwidth = {
+                            -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                            -- can also be a function to dynamically calculate max width such as
+                            menu = function()
+                                return math.floor(0.25 * vim.o.columns)
+                            end,
+                            -- menu = 50, -- leading text (labelDetails)
+                            abbr = 20, -- actual suggestion item
+                        },
+                        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+
+                        -- The function below will be called before any actual modifications from lspkind
+                        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+                        before = function(entry, vim_item)
+                            -- ...
+                            return vim_item
+                        end,
+                    }),
+                },
 
                 enabled = function()
                     -- visada leisti cmdline
@@ -36,14 +65,18 @@ return {
 
                 window = {
                     completion = cmp.config.window.bordered({
-                        border = "rounded",
-                        winhighlight = "NormalFloat:Pmenu,FloatBorder:FloatBorder,Search:None",
+                        border = "bold",
+                        col_offset = -1,
+                        scrollbar = false,
+                        scrolloff = 3,
+                        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,Search:None",
                     }),
                     documentation = cmp.config.window.bordered({
-                        border = "rounded",
-                        winhighlight = "NormalFloat:Pmenu,FloatBorder:FloatBorder,Search:None",
+                        border = "solid",
+                        scrollbar = false,
+                        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,Search:None",
                     }),
-                    side_padding = 1,
+                    side_padding = 0,
                 },
 
                 mapping = cmp.mapping.preset.insert({
