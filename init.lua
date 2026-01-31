@@ -129,7 +129,8 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", vim.tbl_extend("force", opts, { desc = "M
 vim.keymap.set("n", "<C-j>", "<C-w>j", vim.tbl_extend("force", opts, { desc = "Move to lower window" }))
 vim.keymap.set("n", "<C-k>", "<C-w>k", vim.tbl_extend("force", opts, { desc = "Move to upper window" }))
 vim.keymap.set("n", "<C-l>", "<C-w>l", vim.tbl_extend("force", opts, { desc = "Move to right window" }))
-
+vim.keymap.set("n", "<>", "<C-w>l", vim.tbl_extend("force", opts, { desc = "Move to right window" }))
+vim.keymap.set("n", "<leader>b", "v/{<CR>%V", opts, { desc = "Visual select block" })
 vim.keymap.set("n", "<F5>", ":w<CR>:!clang %:p -o %:p:r && %:p:r<CR>", { desc = "Run C code" })
 
 -- Bootstrap lazy.nvim
