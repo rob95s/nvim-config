@@ -16,34 +16,35 @@ return {
                 -- This setting only take effect in insert mode, it does not affect signature help in normal
                 -- mode, 10 by default
 
-                max_height = 15, -- max height of signature floating_window, include borders
-                max_width = function()
-                    return vim.api.nvim_win_get_width(0) * 0.8
-                end, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+                max_height = 10, -- max height of signature floating_window, include borders
+                max_width = 30,
+                -- max_width = function()
+                --     return vim.api.nvim_win_get_width(0) * 0.8
+                -- end, -- max_width of signature floating_window, line will be wrapped if exceed max_width
                 -- the value need >= 40
                 -- if max_width is function, it will be called
                 wrap = true,               -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
                 floating_window = true,    -- show hint in a floating window, set to false for virtual text only mode
-                floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
+                floating_window_above_cur_line = false, -- try to place the floating above the current line when possible Note:
                 -- will set to true when fully tested, set to false will use whichever side has more space
                 -- this setting will be helpful if you do not want the PUM and floating win overlap
 
                 floating_window_off_x = 1, -- adjust float windows x position.
                 -- can be either a number or function
-                floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
+                floating_window_off_y = -2, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
                 -- can be either number or function, see examples
                 -- ignore_error = func(err, ctx, config), -- this scilence errors, check init.lua for more details
 
                 close_timeout = 4000, -- close floating window after ms when laster parameter is entered
                 fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
                 hint_enable = true, -- virtual hint enable
-                hint_prefix = "🐼 ", -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+                -- hint_prefix = "🐼 ", -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
                 -- or, provide a table with 3 icons
-                -- hint_prefix = {
-                --     above = "↙ ",  -- when the hint is on the line above the current line
-                --     current = "← ",  -- when the hint is on the same line
-                --     below = "↖ "  -- when the hint is on the line below the current line
-                -- }
+                hint_prefix = {
+                    above = "↙ ",  -- when the hint is on the line above the current line
+                    current = "← ",  -- when the hint is on the same line
+                    below = "↖ "  -- when the hint is on the line below the current line
+                },
                 hint_scheme = "String",
                 hint_inline = function()
                     return false

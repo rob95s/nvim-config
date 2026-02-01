@@ -1,0 +1,102 @@
+
+{
+           active = false,
+           bottom_up = false,
+           column_width = {
+             abbr = 48,
+             icon = 1,
+             kind = 8,
+             menu = 0
+           },
+           entries_win = {
+             buffer_opt = {
+               buftype = "nofile",
+               filetype = "cmp_menu",
+               tabstop = 1
+             },
+             name = 1,
+             opt = {
+               concealcursor = "n",
+               conceallevel = 2,
+               cursorline = false,
+               cursorlineopt = "line",
+               foldenable = false,
+               scrolloff = 3,
+               winblend = 0,
+               winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,Search:None",
+               wrap = false
+             },
+             style = {
+               border = "bold",
+               col = 52,
+               height = 9,
+               relative = "editor",
+               row = 29,
+               style = "minimal",
+               width = 61,
+               zindex = 1001
+             },
+             win = 1005,
+             <metatable> = {
+               __index = {
+                 buffer_option = <function 132>,
+                 close = <function 133>,
+                 get_border_info = <function 134>,
+                 get_buffer = <function 135>,
+                 get_content_height = <function 136>,
+                 info = <function 137>,
+                 new = <function 138>,
+                 open = <function 139>,
+                 option = <function 140>,
+                 set_style = <function 141>,
+                 update = <function 142>,
+                 visible = <function 143>
+               }
+             }
+           },
+           event = {
+             events = {
+               change = { <function 144> }
+             },
+             <metatable> = {
+               __index = {
+                 clear = <function 145>,
+                 emit = <function 146>,
+                 new = <function 147>,
+                 off = <function 148>,
+                 on = <function 149>
+               }
+             }
+           },
+           offset = 13,
+           <metatable> = {
+             __index = {
+               _insert = {
+                 pending = false,
+                 <metatable> = {
+                   __call = <function 150>
+                 }
+               },
+               _select = <function 151>,
+               abort = <function 152>,
+               close = <function 153>,
+               draw = <function 154>,
+               get_active_entry = <function 155>,
+               get_entries = <function 156>,
+               get_first_entry = <function 157>,
+               get_offset = <function 158>,
+               get_selected_entry = <function 159>,
+               get_selected_index = <function 160>,
+               info = <function 161>,
+               is_direction_top_down = <function 162>,
+               new = <function 163>,
+               ns = 5,
+               on_change = <function 164>,
+               open = <function 165>,
+               ready = <function 166>,
+               select_next_item = <function 167>,
+               select_prev_item = <function 168>,
+               visible = <function 169>
+             }
+           }
+         }

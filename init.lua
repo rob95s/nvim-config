@@ -22,11 +22,12 @@ vim.opt.termguicolors = true
 vim.opt.updatetime = 50
 vim.opt.signcolumn = "yes"
 vim.opt.clipboard = "unnamedplus"
-vim.opt.guifont = "FiraCode Nerd Font:h14" -- GUI
+-- vim.opt.guifont = "FiraCode Nerd Font:h14" -- GUI
 
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
+vim.o.showtabline = 2 --for tabby.nvim plugin
 
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
@@ -130,8 +131,14 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", vim.tbl_extend("force", opts, { desc = "M
 vim.keymap.set("n", "<C-k>", "<C-w>k", vim.tbl_extend("force", opts, { desc = "Move to upper window" }))
 vim.keymap.set("n", "<C-l>", "<C-w>l", vim.tbl_extend("force", opts, { desc = "Move to right window" }))
 vim.keymap.set("n", "<>", "<C-w>l", vim.tbl_extend("force", opts, { desc = "Move to right window" }))
-vim.keymap.set("n", "<leader>b", "v/{<CR>%V", opts, { desc = "Visual select block" })
+vim.keymap.set("n", "<leader>b", "v/{<CR>%V", vim.tbl_extend("force", opts, { desc = "Visual select block" }))
 vim.keymap.set("n", "<F5>", ":w<CR>:!clang %:p -o %:p:r && %:p:r<CR>", { desc = "Run C code" })
+
+require("startup-errors").install()
+
+vim.api.nvim_create_user_command("LiveNotifyToggle", function()
+  require("live-messages").toggle()
+end, {})
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

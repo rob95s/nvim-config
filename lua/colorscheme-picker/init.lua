@@ -25,7 +25,7 @@ function M.setup()
 	theme.setup()
 
 	-- adjust floating window background&foreground color
-    local SCALE = 0.8
+    local SCALE = 0.9
 	local utils = require("colorscheme-picker.utils")
 	vim.api.nvim_set_hl(0, "NormalFloat", {
         foreground = utils.get_highlight_hex_code("Normal", "fg"),
