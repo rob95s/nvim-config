@@ -1,4 +1,3 @@
-local utils = require("colorscheme-picker.utils")
 
 return {
 	"nvim-zh/colorful-winsep.nvim",
@@ -8,11 +7,23 @@ return {
 		-- choose between "single", "rounded", "bold" and "double".
 		-- Or pass a table like this: { "─", "│", "┌", "┐", "└", "┘" },
 		border = { "━", "┃", "┏", "┓", "┗", "┛" },
-		excluded_ft = { "packer", "TelescopePrompt", "mason" },
+		excluded_ft = {
+          "mason",
+          "lazy",
+          "dashboard",
+          "lspinfo",
+          "packer",
+          "checkhealth",
+          "TelescopePrompt",
+          "TelescopeResults",
+        },
 		-- highlight = nil, -- nil|string|function. See the docs's Highlights section
 		-- highlight = vim.api.nvim_set_hl(0, "ColorfulWinSep", { fg = utils.get_separator_color(), bg = nil }),
         highlight = function()
-            vim.api.nvim_set_hl(0, "ColorfulWinSep", { fg = utils.get_separator_color(), bg = nil })
+            local hl = vim.api.nvim_get_hl(0, {name  = "Normal"})
+            -- convert 24bit RGB integer to HEX
+            local hl_hex_string = string.format("#%06x", hl.fg)
+            vim.api.nvim_set_hl(0, "ColorfulWinSep", { fg = hl_hex_string, bg = nil })
         end,
         animate = {
 			enabled = "shift", -- false to disable, or choose a option below (e.g. "shift") and set option for it if needed
