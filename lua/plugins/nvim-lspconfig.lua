@@ -18,6 +18,14 @@ return {
 			},
 		})
 		vim.lsp.enable("lua_ls")
+
+    vim.lsp.config("clangd", {
+      cmd = {
+        "clangd",
+        "--background-index",
+        "--completion-style=bundled",
+      },
+    })
 		vim.lsp.enable("clangd")
 	end,
 }
