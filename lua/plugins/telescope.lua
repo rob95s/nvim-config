@@ -28,8 +28,8 @@ return {
 			telescope.load_extension("live_grep_args")
 
 			vim.keymap.set("n", "<leader>tf", require("telescope.builtin").find_files, { desc = "Telescope files" })
-			vim.keymap.set("n", "<leader>tg", require("telescope.builtin").live_grep, { desc = "Telescope grep" })
-            -- vim.keymap.set("n", "<leader>tg", telescope.extensions.live_grep_args.live_grep_args, { desc = "Live grep args" })
+			vim.keymap.set("n", "<leader>tg", telescope.extensions.live_grep_args.live_grep_args, { desc = "Telescope grep with args" })
+			-- vim.keymap.set("n", "<leader>tg", require("telescope.builtin").live_grep, { desc = "Telescope grep" })
 		end,
 	},
 }

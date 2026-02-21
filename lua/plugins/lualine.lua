@@ -1,4 +1,3 @@
-local utils = require("colorscheme-picker.utils")
 
 return {
     "nvim-lualine/lualine.nvim",
@@ -7,7 +6,7 @@ return {
         require("lualine").setup({
             options = {
                 icons_enabled = true,
-                theme = utils.get_lualine_theme(),  -- colorscheme.utils function
+                theme = "auto",  -- colorscheme.utils function
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "", right = "" },
                 disabled_filetypes = {
